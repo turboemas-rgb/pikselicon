@@ -16,8 +16,9 @@
     --txt:#e7e6f0;
     --txt-dim:#9a99ab;
     --txt-faint:#6a6a7c;
-    --acc:#b4a5ff;
-    --acc-dim:#7d6fd6;
+    --acc:#5B19FF;
+    --acc-dim:#4a14cc;
+    --acc-txt:#9b7bff;
     --grid-cell:#e7e6f0;
     --grid-bg:#0e0e13;
     --guide:#2a2a37;
@@ -47,7 +48,7 @@
   header h1{
     font-size:15px;font-weight:700;letter-spacing:.02em;
   }
-  header h1 .grid7{color:var(--acc)}
+  header h1 .grid7{color:var(--acc-txt)}
   header .sub{font-size:12px;color:var(--txt-faint);font-weight:400}
 
   .layout{
@@ -117,8 +118,8 @@
   }
   button:hover{border-color:var(--acc-dim);color:#fff}
   button:active{transform:translateY(1px)}
-  button.primary{background:var(--acc);color:#171018;border-color:var(--acc);font-weight:700}
-  button.primary:hover{background:#c4b8ff;color:#171018}
+  button.primary{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:700}
+  button.primary:hover{background:#7038ff;color:#fff;border-color:#7038ff}
   button.ghost{background:transparent}
   button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
@@ -137,7 +138,7 @@
   .icon-btn:hover{border-color:var(--acc)}
   .icon-btn svg{width:100%;height:100%;display:block}
   .icon-btn svg rect{fill:var(--txt-dim)}
-  .icon-btn:hover svg rect{fill:var(--acc)}
+  .icon-btn:hover svg rect{fill:var(--acc-txt)}
 
   /* controls */
   .ctrl{margin-bottom:13px}
@@ -146,7 +147,7 @@
     display:flex;justify-content:space-between;align-items:center;
     font-size:11px;color:var(--txt-dim);margin-bottom:6px;
   }
-  .ctrl label .val{color:var(--acc);font-weight:500}
+  .ctrl label .val{color:var(--acc-txt);font-weight:500}
   input[type=range]{
     -webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;
     background:var(--line);outline:none;cursor:pointer;
@@ -191,7 +192,7 @@
   .check input:checked{background:var(--acc);border-color:var(--acc)}
   .check input:checked::after{
     content:"";position:absolute;left:5px;top:2px;width:4px;height:8px;
-    border:solid #171018;border-width:0 2px 2px 0;transform:rotate(45deg);
+    border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);
   }
 
   /* export code */
@@ -222,7 +223,7 @@
 
   .toast{
     position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
-    background:var(--acc);color:#171018;font-size:12px;font-weight:700;
+    background:var(--acc);color:#fff;font-size:12px;font-weight:700;
     padding:9px 18px;border-radius:9px;opacity:0;pointer-events:none;
     transition:opacity .2s,transform .2s;z-index:50;
   }
@@ -288,27 +289,11 @@
             <option value="none">Bez symetrii</option>
           </select>
         </div>
-        <div class="ctrl">
-          <label>Gęstość <span class="val" id="densVal">50%</span></label>
-          <input type="range" id="dens" min="10" max="90" value="50">
-        </div>
         <button id="randomize" class="primary" style="width:100%">Losuj wzór</button>
       </div>
 
       <div class="card">
         <h2>Wygląd</h2>
-        <div class="ctrl">
-          <label>Rozmiar kropki <span class="val" id="cellVal">40 px</span></label>
-          <input type="range" id="cell" min="8" max="80" value="40">
-        </div>
-        <div class="ctrl">
-          <label>Odstęp <span class="val" id="gapVal">0 px</span></label>
-          <input type="range" id="gap" min="0" max="40" value="0">
-        </div>
-        <div class="ctrl">
-          <label>Zaokrąglenie <span class="val" id="radVal">0 px</span></label>
-          <input type="range" id="rad" min="0" max="40" value="0">
-        </div>
         <div class="color-row">
           <div class="color-field">
             <span>Kolor</span>
@@ -368,14 +353,27 @@ const ICONS = {
   ramka:      ["0000000","0111110","0100010","0100010","0100010","0111110","0000000"],
   blyskawica: ["0000010","0000100","0001000","0111110","0001000","0010000","0100000"],
   usmiech:    ["0000000","0100010","0100010","0000000","1000001","0111110","0000000"],
+  // — motion —
+  odtwarzaj:  ["0100000","0110000","0101000","0100110","0101000","0110000","0100000"],
+  pauza:      ["0100010","0100010","0100010","0100010","0100010","0100010","0100010"],
+  nastepna:   ["0000010","0100010","0010010","0001010","0010010","0100010","0000010"],
+  przewin:    ["0000000","0001010","0010100","0101000","0010100","0001010","0000000"],
+  szybciej:   ["0000000","0101000","0010100","0001010","0010100","0101000","0000000"],
+  os_czasu:   ["0011100","0001000","0001000","0001000","0001000","0001000","1111111"],
+  klatka:     ["0000000","0001000","0010100","1100011","0010100","0001000","0000000"],
+  warstwy:    ["0011100","0000000","0000000","0111110","0000000","0000000","1111111"],
+  kadr:       ["1100011","1000001","0000000","0000000","0000000","1000001","1100011"],
+  audio:      ["0001000","0001000","1001001","1001001","1001001","0001000","0001000"],
+  eksport:    ["0001000","0010100","0100010","0001000","0000000","1000001","1111111"],
+  krzywa:     ["0000011","0000100","0000100","0001000","0001000","0010000","1110000"],
 };
 
-// ---------- geometry ----------
+// ---------- geometry (stałe — suwaki wyglądu usunięte) ----------
+const CELL = 40, GAP = 0, RAD = 0;
 function geo(){
-  const cell = +cellEl.value, gap = +gapEl.value;
-  const unit = cell + gap;
-  const total = N*cell + (N-1)*gap;
-  return {cell, gap, unit, total, rad:+radEl.value};
+  const unit = CELL + GAP;
+  const total = N*CELL + (N-1)*GAP;
+  return {cell:CELL, gap:GAP, unit, total, rad:RAD};
 }
 
 // ---------- board render (interactive, WYSIWYG) ----------
@@ -391,9 +389,9 @@ function drawBoard(){
     for(let c=0;c<N;c++){
       const i=r*N+c, x=c*g.unit, y=r*g.unit;
       const on = grid[i];
-      const fill = on ? fg : guide;
-      const op = on ? '1' : '0.35';
-      s += `<rect class="cell" data-i="${i}" x="${x}" y="${y}" width="${g.cell}" height="${g.cell}" rx="${Math.min(g.rad,g.cell/2)}" fill="${fill}" fill-opacity="${op}"/>`;
+      // komórki wyłączone są przezroczyste (tło prześwituje), siatkę rysuje obrys
+      const fill = on ? fg : 'transparent';
+      s += `<rect class="cell" data-i="${i}" x="${x}" y="${y}" width="${g.cell}" height="${g.cell}" rx="${Math.min(g.rad,g.cell/2)}" fill="${fill}"${on?'':` stroke="${guide}" stroke-width="1"`}/>`;
     }
   }
   s += '<g id="violLayer"></g>';
@@ -414,8 +412,15 @@ function applyPaint(i){
     grid[i]=paintVal;
     const el = board.querySelector(`[data-i="${i}"]`);
     if(el){
-      el.setAttribute('fill', paintVal ? fgHex.value : getComputedStyle(document.documentElement).getPropertyValue('--guide').trim());
-      el.setAttribute('fill-opacity', paintVal ? '1' : '0.35');
+      if(paintVal){
+        el.setAttribute('fill', fgHex.value);
+        el.removeAttribute('stroke');
+        el.removeAttribute('stroke-width');
+      } else {
+        el.setAttribute('fill', 'transparent');
+        el.setAttribute('stroke', getComputedStyle(document.documentElement).getPropertyValue('--guide').trim());
+        el.setAttribute('stroke-width', '1');
+      }
     }
     updateExport();
   }
@@ -460,24 +465,37 @@ function updateExport(){
 // ---------- walidator systemu (budżet tuszu + okno 3×3) ----------
 const INK_MIN = 10, INK_MAX = 16, INK_FRAME = 20, WIN_LIMIT = 5;
 const validatorEl = document.getElementById('validator');
-function windowStats(){
+function windowStats(g){
+  g = g || grid;
   let max = 0;
   const bad = new Set();
   for(let r0=0;r0<=N-3;r0++)for(let c0=0;c0<=N-3;c0++){
     let s = 0;
-    for(let r=r0;r<r0+3;r++)for(let c=c0;c<c0+3;c++) s += grid[r*N+c];
+    for(let r=r0;r<r0+3;r++)for(let c=c0;c<c0+3;c++) s += g[r*N+c];
     if(s > max) max = s;
     if(s > WIN_LIMIT){
       for(let r=r0;r<r0+3;r++)for(let c=c0;c<c0+3;c++){
-        if(grid[r*N+c]) bad.add(r*N+c);
+        if(g[r*N+c]) bad.add(r*N+c);
       }
     }
   }
   return {max, bad};
 }
+// pola bazowe: [rMin,rMax,cMin,cMax] — 7×7, 5×7, 7×5, 5×5, zawsze wycentrowane
+const KEYSHAPES = [[0,6,0,6],[0,6,1,5],[1,5,0,6],[1,5,1,5]];
+function bbox(g){
+  let rmin=N, rmax=-1, cmin=N, cmax=-1;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    if(g[r*N+c]){
+      if(r<rmin)rmin=r; if(r>rmax)rmax=r;
+      if(c<cmin)cmin=c; if(c>cmax)cmax=c;
+    }
+  }
+  return {rmin,rmax,cmin,cmax};
+}
 function updateValidator(){
   const ink = grid.reduce((a,b)=>a+b,0);
-  const {max, bad} = windowStats();
+  const {max, bad} = windowStats(grid);
 
   const inkB = document.getElementById('inkBadge');
   let inkState;
@@ -497,13 +515,7 @@ function updateValidator(){
     boxB.innerHTML = 'pole: <b>—</b>';
     boxB.className = 'badge';
   } else {
-    let rmin=N, rmax=-1, cmin=N, cmax=-1;
-    for(let r=0;r<N;r++)for(let c=0;c<N;c++){
-      if(grid[r*N+c]){
-        if(r<rmin)rmin=r; if(r>rmax)rmax=r;
-        if(c<cmin)cmin=c; if(c>cmax)cmax=c;
-      }
-    }
+    let {rmin,rmax,cmin,cmax} = bbox(grid);
     const w = cmax-cmin+1, h = rmax-rmin+1;
     const boxOk =
       (h===7 && w===7) ||
@@ -566,42 +578,58 @@ function loadIcon(name){
   }
 })();
 
-// ---------- randomizer ----------
+// ---------- randomizer (generuje wyłącznie wzory zgodne z systemem) ----------
 const symEl = document.getElementById('sym');
-const densEl = document.getElementById('dens');
 const SYM_NAMES = {quad:'4-osiowa',h:'poziome',v:'pionowe',rot:'obrót 180°',none:'brak'};
-function randomize(){
-  const p = +densEl.value/100;
-  const mode = symEl.value;
+function orbit(r,c,mode){
+  const R = 6-r, C = 6-c;   // pola bazowe są wycentrowane, więc oś zawsze na 3
+  if(mode==='h')    return [[r,c],[r,C]];
+  if(mode==='v')    return [[r,c],[R,c]];
+  if(mode==='quad') return [[r,c],[r,C],[R,c],[R,C]];
+  if(mode==='rot')  return [[r,c],[R,C]];
+  return [[r,c]];
+}
+function tryGen(mode, ks){
+  const [rA,rB,cA,cB] = ks;
   const g = new Array(N*N).fill(0);
-  const set=(r,c,v)=>{ g[r*N+c]=v; };
-  const rnd=()=>Math.random()<p?1:0;
-  if(mode==='none'){
-    for(let i=0;i<N*N;i++) g[i]=rnd();
-  } else if(mode==='h'){ // mirror left-right
-    for(let r=0;r<N;r++)for(let c=0;c<=3;c++){const v=rnd();set(r,c,v);set(r,6-c,v);}
-  } else if(mode==='v'){
-    for(let c=0;c<N;c++)for(let r=0;r<=3;r++){const v=rnd();set(r,c,v);set(6-r,c,v);}
-  } else if(mode==='quad'){ // 4-fold
-    for(let r=0;r<=3;r++)for(let c=0;c<=3;c++){const v=rnd();set(r,c,v);set(r,6-c,v);set(6-r,c,v);set(6-r,6-c,v);}
-  } else if(mode==='rot'){ // 180 rotation
-    for(let i=0;i<Math.ceil(N*N/2);i++){const v=rnd();const r=Math.floor(i/N),c=i%N;set(r,c,v);set(6-r,6-c,v);}
+  const cells = [];
+  for(let r=rA;r<=rB;r++)for(let c=cA;c<=cB;c++) cells.push([r,c]);
+  for(let i=cells.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; [cells[i],cells[j]]=[cells[j],cells[i]]; }
+  let ink = 0;
+  for(const [r,c] of cells){
+    if(ink >= INK_MAX) break;
+    const seen = new Set(), uniq = [];
+    for(const [R,C] of orbit(r,c,mode)){
+      const k = R*N+C;
+      if(!g[k] && !seen.has(k)){ seen.add(k); uniq.push([R,C]); }
+    }
+    if(!uniq.length || ink+uniq.length > INK_MAX) continue;
+    uniq.forEach(([R,C])=>{ g[R*N+C]=1; });
+    if(windowStats(g).max > WIN_LIMIT){ uniq.forEach(([R,C])=>{ g[R*N+C]=0; }); continue; }
+    ink += uniq.length;
   }
-  grid=g; refresh();
+  if(ink < INK_MIN) return null;
+  const b = bbox(g);
+  if(b.rmin!==rA || b.rmax!==rB || b.cmin!==cA || b.cmax!==cB) return null;  // musi wypełnić pole bazowe
+  return g;
+}
+function randomize(){
+  const mode = symEl.value;
+  for(let attempt=0; attempt<600; attempt++){
+    const ks = KEYSHAPES[(Math.random()*KEYSHAPES.length)|0];
+    const g = tryGen(mode, ks);
+    if(g){ grid = g; refresh(); return; }
+  }
+  toast('Nie znaleziono wzoru — spróbuj ponownie');
 }
 document.getElementById('randomize').onclick = randomize;
 symEl.onchange = ()=>{ document.getElementById('symName').textContent = SYM_NAMES[symEl.value]; };
-densEl.oninput = ()=>{ document.getElementById('densVal').textContent = densEl.value+'%'; };
 
 // ---------- appearance controls ----------
-const cellEl=document.getElementById('cell'), gapEl=document.getElementById('gap'), radEl=document.getElementById('rad');
 const transparentEl=document.getElementById('transparent');
 const fgColor=document.getElementById('fgColor'), fgHex=document.getElementById('fgHex');
 const bgColor=document.getElementById('bgColor'), bgHex=document.getElementById('bgHex');
 
-cellEl.oninput=()=>{document.getElementById('cellVal').textContent=cellEl.value+' px';drawBoard();};
-gapEl.oninput =()=>{document.getElementById('gapVal').textContent =gapEl.value+' px';drawBoard();};
-radEl.oninput =()=>{document.getElementById('radVal').textContent =radEl.value+' px';drawBoard();};
 transparentEl.onchange=drawBoard;
 
 function syncColor(picker,hex){
